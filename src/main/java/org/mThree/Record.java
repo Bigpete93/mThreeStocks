@@ -1,5 +1,7 @@
 package org.mThree;
 public class Record {
+
+	private String symbol;
     private String date;
     private double open;
     private  double high;
@@ -7,32 +9,35 @@ public class Record {
     private  double close;
     private  long volume;
 
-    public Record(String Date, double Open, double High, double Low, double Close, long Volume){
+    public Record(String Symbol, String Date, double Open, double High, double Low, double Close, long Volume){
         date = Date;
         open = Open;
         high = High;
         low = Low;
         close = Close;
         volume = Volume;
+        symbol = Symbol;
     }
 
     public Record() {
-        // TODO Auto-generated constructor stub
+        // Auto-generated constructor stub
     }
 
     public String toString() {
-        String str = "";
-        str += date + "\n";
-        str += "open: " + open + "\n";
-        str += "high: " + high + "\n";
-        str += "low: " + low + "\n";
-        str += "close: " + close + "\n";
-        str += "volume: " + volume + "\n";
-
-        return str;
-
+        return date + "\n"
+        + "open: " + open + "\n"
+        + "high: " + high + "\n"
+        + "low: " + low + "\n"
+        + "close: " + close + "\n"
+        + "volume: " + volume + "\n";
     }
 
+	public String getSymbol() {
+		return symbol;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
     public void setDate(String date) {
         this.date = date;
     }
