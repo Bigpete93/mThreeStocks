@@ -5,9 +5,9 @@ public class Record {
     private  double high;
     private double low;
     private  double close;
-    private  int volume;
+    private  long volume;
 
-    public Record(String Date, double Open, double High, double Low, double Close, int Volume){
+    public Record(String Date, double Open, double High, double Low, double Close, long Volume){
         date = Date;
         open = Open;
         high = High;
@@ -48,7 +48,7 @@ public class Record {
     public void setClose(double close) {
         this.close = close;
     }
-    public void setVolume(int volume) {
+    public void setVolume(long volume) {
         this.volume = volume;
     }
     public String getDate(){
@@ -66,7 +66,7 @@ public class Record {
     public double getClose(){
         return close;
     }
-    public int getVolume(){
+    public long getVolume(){
         return volume;
     }
 }
