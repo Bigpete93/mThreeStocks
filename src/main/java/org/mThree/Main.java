@@ -42,7 +42,7 @@ public class Main
     	
     	
     	URL alphaVantage5min = new URL(urlStr);
-        ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min);
+        ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, ticker);
         
         for(Record data: list)
         	System.out.println(data);
