@@ -1,6 +1,10 @@
 package org.mThree;
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class APIURLBuilder {
@@ -15,21 +19,34 @@ public class APIURLBuilder {
 
         switch (l) {
             case MIN:
-                urlStr = "TIME_SERIES_INTRADAY&symbol=" + ticker + " interval=5min&outputsize=full&apikey=";
+                urlStr += "TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&outputsize=full&apikey=";
                 break;
             case DAY:
-                urlStr = "TIME_SERIES_DAILY&symbol=" + ticker + "&outputsize=full&apikey=";
+                urlStr += "TIME_SERIES_DAILY&symbol=" + ticker + "&outputsize=full&apikey=";
                 break;
             case WEEK:
-                urlStr = "TIME_SERIES_WEEKLY&symbol=" + ticker + "&apikey=";
+                urlStr += "TIME_SERIES_WEEKLY&symbol=" + ticker + "&apikey=";
                 break;
             default:
 
         }
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("APIKey.txt"));
+            String apiKey;
+            while ((apiKey = br.readLine()) != null)
+                urlStr += apiKey;
 
-        /*IMPORTANT - REMOVE TO SEPARATE TEXT FILE!*/
-        String apiKey = "VHWKYL5TZYEGPEMF";
-        urlStr += apiKey;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            urlStr+= "DEMO";
+        } catch (IOException e) {
+            e.printStackTrace();
+            urlStr+= "DEMO";
+        }
+
+
 
 
 
