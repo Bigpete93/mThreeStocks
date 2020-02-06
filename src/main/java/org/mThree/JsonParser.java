@@ -11,13 +11,15 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.json.*;
+import org.json.JSONObject;
 
 public class JsonParser {
 
-    public static void JsonParse() throws Exception {
-        URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo");
-        //Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+	
+    public static ArrayList<Record> JsonParse(URL url) throws Exception {
+        ///URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo");
+        
+    	//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         //Set the request to GET or POST as per the requirements
         conn.setRequestMethod("GET");
@@ -35,7 +37,7 @@ public class JsonParser {
             while((line = br.readLine() )!= null)
                 response += line;
 
-            System.out.println(response.substring(0,2000));
+            //System.out.println(response.substring(0,2000));
 
             JSONObject responseJson = new JSONObject(response);
             JSONObject data = responseJson.getJSONObject("Time Series (5min)");
@@ -86,18 +88,19 @@ public class JsonParser {
 
                     if(i == 4) {
                         dataList.add(point);
-                        System.out.println(point);
+                        //System.out.println(point);
                     }
                     i = (i + 1) % 5;
 
                 }
 
             }
-
+            return dataList;
         }
         else {
             System.out.println("Bad response");
         }
+        return null;
 
     }
 
