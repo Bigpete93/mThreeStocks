@@ -38,16 +38,10 @@ public class APIURLBuilder {
                 urlStr += apiKey;
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            urlStr+= "DEMO";
         } catch (IOException e) {
             e.printStackTrace();
-            urlStr+= "DEMO";
+            urlStr= "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo";
         }
-
-
-
 
 
         return urlStr;
