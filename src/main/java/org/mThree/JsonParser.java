@@ -8,19 +8,18 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.json.*;
-
-
+import org.json.JSONObject;
 
 public class JsonParser {
 
-    public static List<Record> JsonParse() throws Exception {
-        URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo");
-        //Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+	
+    public static ArrayList<Record> JsonParse(URL url) throws Exception {
+        ///URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo");
+        
+    	//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         //Set the request to GET or POST as per the requirements
         conn.setRequestMethod("GET");
@@ -38,7 +37,7 @@ public class JsonParser {
             while((line = br.readLine() )!= null)
                 response += line;
 
-            System.out.println(response.substring(0,2000));
+            //System.out.println(response.substring(0,2000));
 
             JSONObject responseJson = new JSONObject(response);
             JSONObject data = responseJson.getJSONObject("Time Series (5min)");
@@ -68,7 +67,7 @@ public class JsonParser {
                             break;
                         case 1:
                             //vol
-                            Long entry_data_i = Long.parseLong(entry_data);
+                            Integer entry_data_i = Integer.parseInt(entry_data);
                             point.setVolume(entry_data_i);
                             break;
                         case 2:
@@ -89,7 +88,7 @@ public class JsonParser {
 
                     if(i == 4) {
                         dataList.add(point);
-                        System.out.println(point);
+                        //System.out.println(point);
                     }
                     i = (i + 1) % 5;
 
@@ -97,12 +96,11 @@ public class JsonParser {
 
             }
             return dataList;
-
         }
         else {
             System.out.println("Bad response");
-            return null;
         }
+        return null;
 
     }
 
