@@ -66,7 +66,7 @@ public class JsonParser {
                             break;
                         case 1:
                             //vol
-                            Integer entry_data_i = Integer.parseInt(entry_data);
+                            Long entry_data_i = Long.parseLong(entry_data);
                             point.setVolume(entry_data_i);
                             break;
                         case 2:
