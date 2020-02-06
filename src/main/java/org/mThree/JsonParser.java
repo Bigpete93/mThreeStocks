@@ -8,6 +8,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +16,7 @@ import org.json.*;
 
 public class JsonParser {
 
-    public static void JsonParse() throws Exception {
+    public static List<Record> JsonParse() throws Exception {
         URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo");
         //Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -93,10 +94,12 @@ public class JsonParser {
                 }
 
             }
+            return dataList;
 
         }
         else {
             System.out.println("Bad response");
+            return null;
         }
 
     }
