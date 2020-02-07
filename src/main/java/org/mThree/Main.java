@@ -26,49 +26,15 @@ public class Main
 	private final static int WEEKLY = 2;
 	
     public static void main( String[] args ) throws Exception {
-    	/*
-    	Scanner console = new Scanner(System.in);
-    	System.out.println("Enter ticker symbol");
-    	String ticker = console.next();
-    	System.out.println(ticker);
 
-    	System.out.println("Enter 0 for 5min, 1 for daily, 2 for weekly");
-    	int option = console.nextInt();
-
-    	String urlStr = "";
-
-
-    	switch(option) {
-    	case MINUTES:
-			urlStr = APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, ticker);
-			break;
-    	case DAILY:
-			urlStr = APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, ticker);
-			break;
-    	case WEEKLY:
-    		urlStr = APIURLBuilder.urlBuild(APIURLBuilder.Length.WEEK, ticker);
-			break;
-    	}
-
-
-    	
-    	
-    	URL alphaVantage5min = new URL(urlStr);
-        ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT");
-        
-        for(Record data: list)
-        	System.out.println(data);
-        
-        if (Desktop.isDesktopSupported()) {
-        	Desktop.getDesktop().browse(new URI("http://localhost"));
-        }
-		*/
 		// Create a service with 3 threads.
 		ScheduledExecutorService execService = Executors.newScheduledThreadPool(3);
 
-// Schedule a task to run every 5 seconds with no initial delay.
+		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, "MSFT"));
+
 				try {
 					mainLoop(APIURLBuilder.Length.MIN);
 				} catch (Exception e) {
@@ -77,15 +43,42 @@ public class Main
 			}
 		}, 0L, 5L, TimeUnit.MINUTES);
 
+		/******* TO DO: FIX API NOT WORKING FOR DAY/WEEK************/
+/*		//Runs every day
+		execService.scheduleAtFixedRate(new Runnable() {
+			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, "MSFT"));
+
+				try {
+					mainLoop(APIURLBuilder.Length.DAY);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, 0L, 1L, TimeUnit.DAYS);
+
+		//Runs every week
+		execService.scheduleAtFixedRate(new Runnable() {
+			public void run() {
+				try {
+					mainLoop(APIURLBuilder.Length.WEEK);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, 0L, 7L, TimeUnit.DAYS);*/
+		//launches a browser if the user has one set as default
+		if (Desktop.isDesktopSupported()) {
+			Desktop.getDesktop().browse(new URI("http://localhost"));}
     }
 
 
+    // List of tasks Main should repeat.
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT");
-		for(Record data: list)
-			System.out.println(data);
+
 
 	}
 }
