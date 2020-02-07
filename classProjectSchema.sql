@@ -9,5 +9,5 @@ CREATE TABLE day_data (day_date DATE, open FLOAT, high FLOAT, low FLOAT, close F
 CREATE TABLE five_min_data (five_min_date DATE, five_min_time TIME, open FLOAT, high FLOAT, low FLOAT, close FLOAT, volume BIGINT, PRIMARY KEY (five_min_date, five_min_time));
 
 --The ip here will need to change.
-GRANT ALL ON project TO 'root'@'3.83.240.60';
-GRANT ALL ON project TO 'root'@'localhost';
+create user 'mysql'@'198.105.46.201' identified by 'mysql';
+grant all privileges on project to 'mysql'@'198.105.46.201' identified by 'mysql';
