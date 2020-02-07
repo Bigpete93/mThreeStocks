@@ -9,5 +9,6 @@
         <module name="mThreeStocks" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="11" />
   </component>
 </project>
