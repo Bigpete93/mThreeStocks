@@ -69,6 +69,8 @@ public class Main
 // Schedule a task to run every 5 seconds with no initial delay.
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, "MSFT"));
+
 				try {
 					mainLoop(APIURLBuilder.Length.MIN);
 				} catch (Exception e) {
@@ -76,6 +78,29 @@ public class Main
 				}
 			}
 		}, 0L, 5L, TimeUnit.MINUTES);
+
+		execService.scheduleAtFixedRate(new Runnable() {
+			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, "MSFT"));
+
+				try {
+					mainLoop(APIURLBuilder.Length.DAY);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, 0L, 1L, TimeUnit.DAYS);
+		/*
+
+		execService.scheduleAtFixedRate(new Runnable() {
+			public void run() {
+				try {
+					mainLoop(APIURLBuilder.Length.WEEK);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, 0L, 7L, TimeUnit.DAYS);*/
 
     }
 
