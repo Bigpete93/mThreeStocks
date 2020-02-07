@@ -42,13 +42,16 @@ public class Main
 				}
 			}
 		}, 0L, 5L, TimeUnit.MINUTES);
+		
+	//delete this below...
+    
 
 		/******* TO DO: FIX API NOT WORKING FOR DAY/WEEK************/
 		//Runs every day
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
 				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, "MSFT"));
-
+				
 				try {
 					mainLoop(APIURLBuilder.Length.DAY);
 				} catch (Exception e) {
@@ -60,6 +63,9 @@ public class Main
 		//Runs every week
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.WEEK, "MSFT"));
+
+				
 				try {
 					mainLoop(APIURLBuilder.Length.WEEK);
 				} catch (Exception e) {
@@ -78,6 +84,11 @@ public class Main
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
+
+		//for testing
+//		for(Record record : list) {
+//			System.out.println(record);
+//		}
 
 	}
 }
