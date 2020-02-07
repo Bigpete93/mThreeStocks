@@ -4,12 +4,14 @@ import java.sql.*;
 
     public class Controller {
 
+        String dbUrl = "jdbc:mysql://54.145.49.152:3306/project";
+        String username = "mysql";
+        String password = "mysql";
+
         void setDataByWeek(String s, double open, double high, double low, double close, int volume){
             String insertStmt = "INSERT INTO week_data VALUES (?, ?, ?, ?, ?, ?)";
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://3.89.243.51:3306/employees","mysql","mysql");
-                    PreparedStatement insertByWeek =
-                            con.prepareStatement(insertStmt)
+            try(Connection con = DriverManager.getConnection(dbUrl,username,password);
+                PreparedStatement insertByWeek = con.prepareStatement(insertStmt)
             ){
                 insertByWeek.setString(1, s);
                 insertByWeek.setDouble(2, open);
@@ -24,10 +26,8 @@ import java.sql.*;
 
         void setDataByDay(String s, double open, double high, double low, double close, int volume){
             String insertStmt = "INSERT INTO day_data VALUES (?, ?, ?, ?, ?, ?)";
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://3.89.243.51:3306/employees","mysql","mysql");
-                PreparedStatement insertByDay =
-                        con.prepareStatement(insertStmt)
+            try(Connection con = DriverManager.getConnection(dbUrl,username,password);
+                PreparedStatement insertByDay = con.prepareStatement(insertStmt)
             ){
                 insertByDay.setString(1, s);
                 insertByDay.setDouble(2, open);
@@ -41,12 +41,10 @@ import java.sql.*;
         }
 
         void setDataBy5Min(String s, double open, double high, double low, double close, int volume){
-            String insertStmt = "INSERT INTO 5_min_data VALUES (?, ?, ?, ?, ?, ?)";
+            String insertStmt = "INSERT INTO five_min_data VALUES (?, ?, ?, ?, ?, ?)";
 
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://3.89.243.51:3306/employees","mysql","mysql");
-                PreparedStatement insertBy5Min =
-                        con.prepareStatement(insertStmt)
+            try(Connection con = DriverManager.getConnection(dbUrl,username,password);
+                PreparedStatement insertBy5Min = con.prepareStatement(insertStmt)
             ){
                 insertBy5Min.setString(1, s);
                 insertBy5Min.setDouble(2, open);
@@ -61,13 +59,11 @@ import java.sql.*;
         }
 
         String getDataByWeek(String s){
-            String query = "SELECT * FROM week_data WHERE week = ?";
+            String query = "SELECT * FROM week_data WHERE week_date = ?";
             String result = null;
 
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://3.89.243.51:3306/employees","mysql","mysql");
-                PreparedStatement selectStmt=
-                        con.prepareStatement(query)
+            try(Connection con = DriverManager.getConnection(dbUrl,username,password);
+                PreparedStatement selectStmt = con.prepareStatement(query)
             ){
 
                 selectStmt.setString(1, s);
@@ -84,30 +80,60 @@ import java.sql.*;
             return result;
         }
 
-       // String getDdataByDay(String s){}
+       String getDataByDay(String s){
+           String query = "SELECT * FROM day_data WHERE day_date = ?";
+           String result = null;
 
-        //String getDataBy5Min(String s){}
+           try(Connection con = DriverManager.getConnection(dbUrl,username,password);
+               PreparedStatement selectStmt= con.prepareStatement(query)
+           ){
+
+               selectStmt.setString(1, s);
+               ResultSet rs = selectStmt.executeQuery();
+
+               result = rs.getDouble("open") + ", "+
+                       rs.getDouble("high") + ", "+
+                       rs.getDouble("low") + ", "+
+                       rs.getDouble("close") + ", " +
+                       rs.getLong("volume");
+
+           } catch (SQLException e) {e.printStackTrace();}
+
+           return result;
+       }
+
+        String getDataBy5Min(String s){
+            String query = "SELECT * FROM week_data WHERE five_min_date = ? AND five_min_time = ?";
+            String result = null;
+
+            String [] timeAndDate = s.split(" ");
+            String date = timeAndDate[0];
+            String time = timeAndDate[1];
+
+            try(Connection con = DriverManager.getConnection(dbUrl, username, password);
+                PreparedStatement selectStmt= con.prepareStatement(query)
+            ){
+
+                selectStmt.setString(1, date);
+                selectStmt.setString(2, time);
+                ResultSet rs = selectStmt.executeQuery();
+
+                result = rs.getDouble("open") + ", "+
+                        rs.getDouble("high") + ", "+
+                        rs.getDouble("low") + ", "+
+                        rs.getDouble("close") + ", " +
+                        rs.getLong("volume");
+
+            } catch (SQLException e) {e.printStackTrace();}
+
+            return result;
+         }
 
         /*
         List<String> getAllWeek();
         List<String> getAllDay();
         List<String> getAll5Min();
         */
-        public static void main(String[] args) {
-            System.out.println("asdas");
-            try{
-                Connection con = DriverManager.getConnection(
-                        "jdbc:mysql://3.89.243.51:3306/employees","mysql","mysql");
-
-                Class.forName("com.mysql.jdbc.Driver");
-                Statement stmt=con.createStatement();
-                ResultSet rs=stmt.executeQuery("SELECT * FROM employees");
-
-                while(rs.next())
-                    System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-                con.close();
-            }catch(Exception e){ System.out.println(e);}
-        }
 
     }
 
