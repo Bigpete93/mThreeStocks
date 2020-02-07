@@ -1,12 +1,14 @@
 package org.mThree;
 
-import org.mThree.API.APIURLBuilder;
-import org.mThree.API.JsonParser;
-import org.mThree.API.Record;
-
+import java.awt.Desktop;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.mThree.API.APIURLBuilder;
+import org.mThree.API.JsonParser;
+import org.mThree.API.Record;
 
 /**
  * Hello world!
@@ -46,10 +48,15 @@ public class Main
     	
     	
     	URL alphaVantage5min = new URL(urlStr);
-        ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, ticker);
+        ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT");
         
         for(Record data: list)
         	System.out.println(data);
+        
+        if (Desktop.isDesktopSupported()) {
+        	Desktop.getDesktop().browse(new URI("http://localhost"));
+        }
+
         
     }
 }
