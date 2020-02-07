@@ -11,15 +11,21 @@ import java.util.Iterator;
 import org.json.JSONObject;
 
 public class JsonParser {
-	
+
 	private static final int LOW = 0;
 	private static final int VOLUME = 1;
 	private static final int OPEN = 2;
 	private static final int HIGH = 3;
 	private static final int CLOSE = 4;
 
-	public static ArrayList<Record> JsonParse(URL url, String symbol) throws Exception {
-		
+	public static ArrayList<Record> JsonParse(URL url, String symbol, APIURLBuilder.Length durationType) throws Exception {
+		String duration = "";
+		switch(durationType) {
+		case MIN: duration = "Time Series (5min)"; break;
+		case DAY: duration = "Time Series (Daily)"; break;
+		case WEEK:duration = "Weekly Time Series"; break;
+		}
+
 		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		//Set the request to GET or POST as per the requirements
@@ -39,7 +45,7 @@ public class JsonParser {
 			response += line;
 
 		JSONObject responseJson = new JSONObject(response);
-		JSONObject data = responseJson.getJSONObject("Time Series (5min)");
+		JSONObject data = responseJson.getJSONObject(duration);
 
 		String[] dates = JSONObject.getNames(data);
 
@@ -79,9 +85,9 @@ public class JsonParser {
 					break;
 				}
 			}
-			
+
 		}
-		
+
 		dataList.sort((o1,o2) -> o1.getDate().compareTo(o2.getDate()));
 		return dataList;
 	}

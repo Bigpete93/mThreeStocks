@@ -44,7 +44,7 @@ public class Main
 		}, 0L, 5L, TimeUnit.MINUTES);
 
 		/******* TO DO: FIX API NOT WORKING FOR DAY/WEEK************/
-/*		//Runs every day
+		//Runs every day
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
 				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, "MSFT"));
@@ -66,7 +66,7 @@ public class Main
 					e.printStackTrace();
 				}
 			}
-		}, 0L, 7L, TimeUnit.DAYS);*/
+		}, 0L, 7L, TimeUnit.DAYS);
 		//launches a browser if the user has one set as default
 		if (Desktop.isDesktopSupported()) {
 			Desktop.getDesktop().browse(new URI("http://localhost"));}
@@ -77,8 +77,7 @@ public class Main
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		URL alphaVantage5min = new URL(urlStr);
-		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT");
+		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
 
-//		Test commit, argh!!!!!
 	}
 }
