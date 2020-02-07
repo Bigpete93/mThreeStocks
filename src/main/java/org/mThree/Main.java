@@ -1,5 +1,9 @@
 package org.mThree;
 
+import org.mThree.API.APIURLBuilder;
+import org.mThree.API.JsonParser;
+import org.mThree.API.Record;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;

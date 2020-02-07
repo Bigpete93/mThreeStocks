@@ -1,4 +1,4 @@
-package org.mThree;
+package org.mThree.API;
 public class Record {
 
 	private String symbol;

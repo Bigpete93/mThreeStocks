@@ -1,4 +1,4 @@
-package org.mThree;
+package org.mThree.FrontEnd;
 
 import static spark.Spark.before;
 import static spark.Spark.get;
