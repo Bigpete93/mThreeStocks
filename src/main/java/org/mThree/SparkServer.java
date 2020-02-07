@@ -1,13 +1,7 @@
 package org.mThree;
-import static spark.Spark.*;
-import com.google.gson.*;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+
+import static spark.Spark.before;
+import static spark.Spark.get;
 
 public class SparkServer {
     public static void spark(){
