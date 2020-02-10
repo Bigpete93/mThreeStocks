@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <style>
+    table.blueTable {
+      border: 1px solid #1C6EA4;
+      background-color: #EEEEEE;
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
+    }
+    table.blueTable td, table.blueTable th {
+      border: 1px solid #AAAAAA;
+      padding: 3px 2px;
+    }
+    table.blueTable tbody td {
+      font-size: 13px;
+    }
+    table.blueTable tr:nth-child(even) {
+      background: #D0E4F5;
+    }
+    table.blueTable thead {
+      background: #1C6EA4;
+      background: -moz-linear-gradient(top, #5592BB 0%, #327CAD 66%, #1C6EA4 100%);
+      background: -webkit-linear-gradient(top, #5592BB 0%, #327CAD 66%, #1C6EA4 100%);
+      background: linear-gradient(to bottom, #5592BB 0%, #327CAD 66%, #1C6EA4 100%);
+      border-bottom: 2px solid #444444;
+    }
+    table.blueTable thead th {
+      font-size: 15px;
+      font-weight: bold;
+      color: #FFFFFF;
+      text-align: center;
+      border-left: 2px solid #D0E4F5;
+    }
+    table.blueTable thead th:first-child {
+      border-left: none;
+    }
+    table.blueTable tfoot {
+      font-size: 14px;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: #D0E4F5;
+      background: -moz-linear-gradient(top, #DCEBF7 0%, #D4E6F6 66%, #D0E4F5 100%);
+      background: -webkit-linear-gradient(top, #DCEBF7 0%, #D4E6F6 66%, #D0E4F5 100%);
+      background: linear-gradient(to bottom, #DCEBF7 0%, #D4E6F6 66%, #D0E4F5 100%);
+      border-top: 2px solid #444444;
+    }
+    table.blueTable tfoot td {
+      font-size: 14px;
+    }
+    table.blueTable tfoot .links {
+      text-align: right;
+    }
+    table.blueTable tfoot .links a{
+      display: inline-block;
+      background: #1C6EA4;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 5px;
+    }
+
+  </style>
+  <head>
+    <meta charset="utf-8" />
+    <title>Stock Analyzer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/britecharts/dist/css/britecharts.min.css" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/bundled/britecharts.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/line.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/brush.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/tooltip.min.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="test.html">MThree Stock Analysis</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Get All Data
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" onclick="renderAllTable('Weekly')">Intraday</a>
+              <a class="dropdown-item" onclick="renderAllTable('Daily')">Daily</a>
+              <a class="dropdown-item" onclick="renderAllTable('Intraday')">Weekly</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Get Single Data
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" onclick="renderSingleInputForm('Intraday'); armSubmit('Intraday')">Intraday</a>
+              <a class="dropdown-item" onclick="renderSingleInputForm('Daily'); armSubmit('Daily')">Daily</a>
+              <a class="dropdown-item" onclick="renderSingleInputForm('Weekly'); armSubmit('Weekly')">Weekly</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Analysis
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" onclick="renderHistorical(); armHistorical()">Historical</a>
+              <a class="dropdown-item disabled" >Dashboard</a>
+              <a class="dropdown-item disabled" >Recommendation</a>
+            </div>
+          </li>
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+      </div>
+    </nav>
+
+    <main id="main">
+      <h1 id="parameter" class="text-center">Welcome to the MThree Stock Analysis Application</h1>
+    </main>
+    
+    <script src="GetData.js"></script>
+  </body>
+</html>
