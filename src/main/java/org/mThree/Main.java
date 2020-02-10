@@ -42,11 +42,7 @@ public class Main
 				}
 			}
 		}, 0L, 5L, TimeUnit.MINUTES);
-		
-	//delete this below...
-    
 
-		/******* TO DO: FIX API NOT WORKING FOR DAY/WEEK************/
 		//Runs every day
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
@@ -73,9 +69,16 @@ public class Main
 				}
 			}
 		}, 0L, 7L, TimeUnit.DAYS);
+		//TO DO: launch front end
+
+
+
 		//launches a browser if the user has one set as default
 		if (Desktop.isDesktopSupported()) {
 			Desktop.getDesktop().browse(new URI("http://localhost"));}
+
+
+
     }
 
 
@@ -84,11 +87,8 @@ public class Main
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
+		//TO DO: For Loop ToDB
 
-		//for testing
-//		for(Record record : list) {
-//			System.out.println(record);
-//		}
 
 	}
 }
