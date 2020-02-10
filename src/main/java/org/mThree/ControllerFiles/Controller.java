@@ -1,57 +1,63 @@
 package org.mThree.ControllerFiles;
 
 import java.sql.*;
+import java.util.ArrayList;
 
-    public class Controller {
+public class Controller {
 
-        String dbUrl = "jdbc:mysql://54.145.49.152:3306/project";
-        String username = "mysql";
-        String password = "mysql";
+        static String dbUrl = "jdbc:mysql://54.145.49.152:3306/project";
+        static String username = "mysql";
+        static String password = "mysql";
 
-        void setDataByWeek(String s, double open, double high, double low, double close, int volume){
+        void setDataByWeek(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO week_data VALUES (?, ?, ?, ?, ?, ?)";
             try(Connection con = DriverManager.getConnection(dbUrl,username,password);
                 PreparedStatement insertByWeek = con.prepareStatement(insertStmt)
             ){
-                insertByWeek.setString(1, s);
+                insertByWeek.setDate(1, java.sql.Date.valueOf(s));
                 insertByWeek.setDouble(2, open);
                 insertByWeek.setDouble(3, high);
                 insertByWeek.setDouble(4, low);
                 insertByWeek.setDouble(5, close);
-                insertByWeek.setInt(6, volume);
+                insertByWeek.setLong(6, volume);
 
                 insertByWeek.executeUpdate();
             } catch (SQLException e) {e.printStackTrace();}
         }
 
-        void setDataByDay(String s, double open, double high, double low, double close, int volume){
+        void setDataByDay(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO day_data VALUES (?, ?, ?, ?, ?, ?)";
             try(Connection con = DriverManager.getConnection(dbUrl,username,password);
                 PreparedStatement insertByDay = con.prepareStatement(insertStmt)
             ){
-                insertByDay.setString(1, s);
+                insertByDay.setDate(1, java.sql.Date.valueOf(s));
                 insertByDay.setDouble(2, open);
                 insertByDay.setDouble(3, high);
                 insertByDay.setDouble(4, low);
                 insertByDay.setDouble(5, close);
-                insertByDay.setInt(6, volume);
+                insertByDay.setLong(6, volume);
 
                 insertByDay.executeUpdate();
             } catch (SQLException e) {e.printStackTrace();}
         }
 
-        void setDataBy5Min(String s, double open, double high, double low, double close, int volume){
+        void setDataBy5Min(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO five_min_data VALUES (?, ?, ?, ?, ?, ?)";
+
+            String [] timeAndDate = s.split(" ");
+            String date = timeAndDate[0];
+            String time = timeAndDate[1];
 
             try(Connection con = DriverManager.getConnection(dbUrl,username,password);
                 PreparedStatement insertBy5Min = con.prepareStatement(insertStmt)
             ){
-                insertBy5Min.setString(1, s);
-                insertBy5Min.setDouble(2, open);
-                insertBy5Min.setDouble(3, high);
-                insertBy5Min.setDouble(4, low);
-                insertBy5Min.setDouble(5, close);
-                insertBy5Min.setInt(6, volume);
+                insertBy5Min.setDate(1, java.sql.Date.valueOf(date));
+                insertBy5Min.setTime(2, java.sql.Time.valueOf(time));
+                insertBy5Min.setDouble(3, open);
+                insertBy5Min.setDouble(4, high);
+                insertBy5Min.setDouble(5, low);
+                insertBy5Min.setDouble(6, close);
+                insertBy5Min.setLong(7, volume);
 
                 insertBy5Min.executeUpdate();
 
