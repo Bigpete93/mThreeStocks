@@ -81,6 +81,7 @@ public class Controller {
                         rs.getDouble("close") + ", " +
                         rs.getLong("volume");
 
+            } catch (SQLException se) {se.printStackTrace();
             } catch (Exception e) {return null;}
 
             return result;
@@ -103,6 +104,7 @@ public class Controller {
                        rs.getDouble("close") + ", " +
                        rs.getLong("volume");
 
+           } catch (SQLException se) {se.printStackTrace();
            } catch (Exception e) {return null;}
 
            return result;
@@ -130,6 +132,7 @@ public class Controller {
                         rs.getDouble("close") + ", " +
                         rs.getLong("volume");
 
+            } catch (SQLException se) {se.printStackTrace();
             } catch (Exception e) {return null;}
 
             return result;
