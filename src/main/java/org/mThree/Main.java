@@ -27,6 +27,7 @@ public class Main
 	
     public static void main( String[] args ) throws Exception {
 
+    	/*******************THREADS***********************************/
 		// Create a service with 3 threads.
 		ScheduledExecutorService execService = Executors.newScheduledThreadPool(3);
 
@@ -69,7 +70,10 @@ public class Main
 				}
 			}
 		}, 0L, 7L, TimeUnit.DAYS);
-		//TO DO: launch front end
+
+		/******************* FRONT END CALL***********************************/
+
+ 		//TO DO: launch front end
 
 
 
@@ -87,7 +91,10 @@ public class Main
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
-		//TO DO: For Loop ToDB
+		//TO DO: For Loop ToDataBase
+		for(Record record: list){
+
+		}
 
 
 	}
