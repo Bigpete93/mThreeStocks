@@ -117,7 +117,7 @@ public class Controller {
        }
 
         public String getDataBy5Min(String s){
-            String query = "SELECT * FROM week_data WHERE five_min_date = ? AND five_min_time = ?";
+            String query = "SELECT * FROM five_min_data WHERE five_min_date = ? AND five_min_time = ?";
             String result = null;
 
             String [] timeAndDate = s.split(" ");
