@@ -82,7 +82,10 @@ public class Controller {
                         rs.getLong("volume");
 
             } catch (SQLException se) {se.printStackTrace();
-            } catch (Exception e) {return null;}
+            }
+            if (result == "0, 0, 0, 0, 0"){
+                return null;
+            }
 
             return result;
         }
@@ -105,7 +108,10 @@ public class Controller {
                        rs.getLong("volume");
 
            } catch (SQLException se) {se.printStackTrace();
-           } catch (Exception e) {return null;}
+           }
+           if (result == "0, 0, 0, 0, 0"){
+               return null;
+           }
 
            return result;
        }
@@ -133,7 +139,10 @@ public class Controller {
                         rs.getLong("volume");
 
             } catch (SQLException se) {se.printStackTrace();
-            } catch (Exception e) {return null;}
+            }
+            if (result == "0, 0, 0, 0, 0"){
+                return null;
+            }
 
             return result;
          }
