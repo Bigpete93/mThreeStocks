@@ -25,7 +25,7 @@ public class Controller {
             } catch (SQLException e) {e.printStackTrace();}
         }
 
-        void setDataByDay(String s, double open, double high, double low, double close, long volume){
+        public void setDataByDay(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO day_data VALUES (?, ?, ?, ?, ?, ?)";
             try(Connection con = DriverManager.getConnection(dbUrl,username,password);
                 PreparedStatement insertByDay = con.prepareStatement(insertStmt)
@@ -41,7 +41,7 @@ public class Controller {
             } catch (SQLException e) {e.printStackTrace();}
         }
 
-        void setDataBy5Min(String s, double open, double high, double low, double close, long volume){
+        public void setDataBy5Min(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO five_min_data VALUES (?, ?, ?, ?, ?, ?)";
 
             String [] timeAndDate = s.split(" ");
@@ -64,7 +64,7 @@ public class Controller {
             } catch (SQLException e) {e.printStackTrace();}
         }
 
-        String getDataByWeek(String s){
+        public String getDataByWeek(String s){
             String query = "SELECT * FROM week_data WHERE week_date = ?";
             String result = null;
 
@@ -86,7 +86,7 @@ public class Controller {
             return result;
         }
 
-       String getDataByDay(String s){
+       public String getDataByDay(String s){
            String query = "SELECT * FROM day_data WHERE day_date = ?";
            String result = null;
 
@@ -108,7 +108,7 @@ public class Controller {
            return result;
        }
 
-        String getDataBy5Min(String s){
+        public String getDataBy5Min(String s){
             String query = "SELECT * FROM week_data WHERE five_min_date = ? AND five_min_time = ?";
             String result = null;
 
@@ -135,7 +135,7 @@ public class Controller {
             return result;
          }
 
-         static ArrayList<String> getAll5Min() {
+         public ArrayList<String> getAll5Min() {
              ArrayList result = new ArrayList<String>();
 
              try {Connection con = DriverManager.getConnection(dbUrl, username, password);
@@ -165,7 +165,7 @@ public class Controller {
              return result;
          }
 
-         static ArrayList<String> getAllDay() {
+         public ArrayList<String> getAllDay() {
              ArrayList result = new ArrayList<String>();
 
              try {Connection con = DriverManager.getConnection(dbUrl, username, password);
@@ -194,7 +194,7 @@ public class Controller {
              return result;
          }
 
-         static ArrayList<String> getAllWeek() {
+         public ArrayList<String> getAllWeek() {
              ArrayList result = new ArrayList<String>();
 
              try {Connection con = DriverManager.getConnection(dbUrl, username, password);
