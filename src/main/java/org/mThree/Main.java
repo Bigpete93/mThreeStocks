@@ -25,13 +25,13 @@ public class Main
 	private final static int MINUTES = 0;
 	private final static int DAILY = 1;
 	private final static int WEEKLY = 2;
-	
-    public static void main( String[] args ) throws Exception {
 
-    	/*******************THREADS***********************************/
+	public static void main( String[] args ) throws Exception {
+
+		/*******************THREADS***********************************/
 		// Create a service with 3 threads.
 		ScheduledExecutorService execService = Executors.newScheduledThreadPool(3);
-/*
+
 		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
@@ -56,14 +56,14 @@ public class Main
 					e.printStackTrace();
 				}
 			}
-		}, 0L, 1L, TimeUnit.DAYS);*/
+		}, 0L, 1L, TimeUnit.DAYS);
 
 		//Runs every week
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
 				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.WEEK, "MSFT"));
 
-				
+
 				try {
 					mainLoop(APIURLBuilder.Length.WEEK);
 					} catch (Exception e) {
@@ -74,28 +74,46 @@ public class Main
 
 		/******************* FRONT END CALL***********************************/
 
- 		//TO DO: launch front end
+		//TO DO: launch front end
 
 
 
 		//launches a browser if the user has one set as default
-		if (Desktop.isDesktopSupported()) {
-			Desktop.getDesktop().browse(new URI("http://localhost"));}
+		//if (Desktop.isDesktopSupported()) {
+		//	Desktop.getDesktop().browse(new URI("http://localhost"));}
 
 
 
-    }
+
+	}
 
 
-    // List of tasks Main should repeat.
+	// List of tasks Main should repeat.
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		Controller controller = new Controller();
 		URL alphaVantage5min = new URL(urlStr);
-		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
+		ArrayList<Record> ToSql = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
+
 		//TO DO: For Loop ToDataBase
-		for(Record record: list){
-			controller.setDataByWeek(record.getDate(),record.getOpen(),record.getHigh(),record.getLow(),record.getClose(),record.getVolume());
+		for(Record record: ToSql) {
+			switch (h) {
+				case WEEK:
+					if(controller.getDataByWeek(record.getDate()).isEmpty())
+						controller.setDataByWeek(record.getDate(), record.getOpen(),
+							record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
+					break;
+				case DAY:
+					if(controller.getDataByDay(record.getDate()).isEmpty())
+						controller.setDataByDay(record.getDate(), record.getOpen(),
+								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
+					break;
+				case MIN:
+					if(controller.getDataBy5Min(record.getDate()).isEmpty())
+						controller.setDataBy5Min(record.getDate(), record.getOpen(),
+								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
+					break;
+			}
 		}
 
 
