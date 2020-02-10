@@ -99,17 +99,17 @@ public class Main
 		for(Record record: ToSql) {
 			switch (h) {
 				case WEEK:
-					if(controller.getDataByWeek(record.getDate()).isEmpty())
+					if(controller.getDataByWeek(record.getDate()) == null)
 						controller.setDataByWeek(record.getDate(), record.getOpen(),
 							record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case DAY:
-					if(controller.getDataByDay(record.getDate()).isEmpty())
+					if(controller.getDataByDay(record.getDate()) == null)
 						controller.setDataByDay(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case MIN:
-					if(controller.getDataBy5Min(record.getDate()).isEmpty())
+					if(controller.getDataBy5Min(record.getDate()) == null)
 						controller.setDataBy5Min(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
