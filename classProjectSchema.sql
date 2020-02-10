@@ -10,4 +10,4 @@ CREATE TABLE five_min_data (five_min_date DATE, five_min_time TIME, open FLOAT, 
 
 --The ip here will need to change.
 create user 'mysql'@'198.105.46.201' identified by 'mysql';
-grant all privileges on project to 'mysql'@'198.105.46.201' identified by 'mysql';
+grant all privileges on project.* to 'mysql'@'198.105.46.201' identified by 'mysql';
