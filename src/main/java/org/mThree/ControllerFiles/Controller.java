@@ -129,11 +129,92 @@ import java.sql.*;
             return result;
          }
 
-        /*
-        List<String> getAllWeek();
-        List<String> getAllDay();
-        List<String> getAll5Min();
-        */
+         static ArrayList<String> getAll5Min() {
+             ArrayList result = new ArrayList<String>();
+
+             try {Connection con = DriverManager.getConnection(dbUrl, username, password);
+                 String query = "SELECT * FROM five_min_data";
+
+                 PreparedStatement selectStmt = con.prepareStatement(query);
+
+                 ResultSet rs = selectStmt.executeQuery();
+
+                 while (rs.next()) {
+                         String temp = rs.getString("five_min_date") + ", " +
+                                 rs.getString("five_min_time") + ", " +
+                                 rs.getString("high") + ", " +
+                                 rs.getString("low") + ", " +
+                                 rs.getString("open") + ", " +
+                                 rs.getString("close") + ", " +
+                                 rs.getString("volume");
+                         result.add(temp);
+                     }
+
+             }
+
+             catch (SQLException e) {
+                 e.printStackTrace();
+             }
+
+             return result;
+         }
+
+         static ArrayList<String> getAllDay() {
+             ArrayList result = new ArrayList<String>();
+
+             try {Connection con = DriverManager.getConnection(dbUrl, username, password);
+                 String query = "SELECT * FROM day_data";
+
+                 PreparedStatement selectStmt = con.prepareStatement(query);
+
+                 ResultSet rs = selectStmt.executeQuery();
+
+                 while (rs.next()) {
+                     String temp = rs.getString("day_date") + ", " +
+                             rs.getString("high") + ", " +
+                             rs.getString("low") + ", " +
+                             rs.getString("open") + ", " +
+                             rs.getString("close") + ", " +
+                             rs.getString("volume");
+                     result.add(temp);
+                 }
+
+             }
+
+             catch (SQLException e) {
+                 e.printStackTrace();
+             }
+
+             return result;
+         }
+
+         static ArrayList<String> getAllWeek() {
+             ArrayList result = new ArrayList<String>();
+
+             try {Connection con = DriverManager.getConnection(dbUrl, username, password);
+                 String query = "SELECT * FROM week_data";
+
+                 PreparedStatement selectStmt = con.prepareStatement(query);
+
+                 ResultSet rs = selectStmt.executeQuery();
+
+                 while (rs.next()) {
+                     String temp = rs.getString("week_date") + ", " +
+                             rs.getString("high") + ", " +
+                             rs.getString("low") + ", " +
+                             rs.getString("open") + ", " +
+                             rs.getString("close") + ", " +
+                             rs.getString("volume");
+                     result.add(temp);
+                 }
+
+             }
+
+             catch (SQLException e) {
+                 e.printStackTrace();
+             }
+
+             return result;
+         }
 
     }
-
