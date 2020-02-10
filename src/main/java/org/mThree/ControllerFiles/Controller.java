@@ -9,7 +9,7 @@ public class Controller {
         static String username = "mysql";
         static String password = "mysql";
 
-        void setDataByWeek(String s, double open, double high, double low, double close, long volume){
+        public void setDataByWeek(String s, double open, double high, double low, double close, long volume){
             String insertStmt = "INSERT INTO week_data VALUES (?, ?, ?, ?, ?, ?)";
             try(Connection con = DriverManager.getConnection(dbUrl,username,password);
                 PreparedStatement insertByWeek = con.prepareStatement(insertStmt)

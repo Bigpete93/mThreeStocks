@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.mThree.API.APIURLBuilder;
 import org.mThree.API.JsonParser;
 import org.mThree.API.Record;
+import org.mThree.ControllerFiles.Controller;
 
 /**
  * Hello world!
@@ -30,7 +31,7 @@ public class Main
     	/*******************THREADS***********************************/
 		// Create a service with 3 threads.
 		ScheduledExecutorService execService = Executors.newScheduledThreadPool(3);
-
+/*
 		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
@@ -55,7 +56,7 @@ public class Main
 					e.printStackTrace();
 				}
 			}
-		}, 0L, 1L, TimeUnit.DAYS);
+		}, 0L, 1L, TimeUnit.DAYS);*/
 
 		//Runs every week
 		execService.scheduleAtFixedRate(new Runnable() {
@@ -65,7 +66,7 @@ public class Main
 				
 				try {
 					mainLoop(APIURLBuilder.Length.WEEK);
-				} catch (Exception e) {
+					} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -89,11 +90,12 @@ public class Main
     // List of tasks Main should repeat.
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
+		Controller controller = new Controller();
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> list = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
 		//TO DO: For Loop ToDataBase
 		for(Record record: list){
-
+			controller.setDataByWeek(record.getDate(),record.getOpen(),record.getHigh(),record.getLow(),record.getClose(),record.getVolume());
 		}
 
 
