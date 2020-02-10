@@ -72,7 +72,7 @@ public class Controller {
                 PreparedStatement selectStmt = con.prepareStatement(query)
             ){
 
-                selectStmt.setString(1, s);
+                selectStmt.setDate(1, java.sql.Date.valueOf(s));
                 ResultSet rs = selectStmt.executeQuery();
 
                 result = rs.getDouble("open") + ", "+
@@ -94,7 +94,7 @@ public class Controller {
                PreparedStatement selectStmt= con.prepareStatement(query)
            ){
 
-               selectStmt.setString(1, s);
+               selectStmt.setDate(1, java.sql.Date.valueOf(s));
                ResultSet rs = selectStmt.executeQuery();
 
                result = rs.getDouble("open") + ", "+
@@ -120,8 +120,8 @@ public class Controller {
                 PreparedStatement selectStmt= con.prepareStatement(query)
             ){
 
-                selectStmt.setString(1, date);
-                selectStmt.setString(2, time);
+                selectStmt.setDate(1, java.sql.Date.valueOf(date));
+                selectStmt.setTime(2, java.sql.Time.valueOf(time));
                 ResultSet rs = selectStmt.executeQuery();
 
                 result = rs.getDouble("open") + ", "+
