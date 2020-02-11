@@ -21,22 +21,15 @@ import org.mThree.ControllerFiles.Controller;
  */
 public class Main
 {
+	public static void main( String[] args ){
 
-	private final static int MINUTES = 0;
-	private final static int DAILY = 1;
-	private final static int WEEKLY = 2;
-
-	public static void main( String[] args ) throws Exception {
-
-		/*******************THREADS***********************************/
+		/*******************  THREADS & BACKEND  *****************************/
 		// Create a service with 3 threads.
 		ScheduledExecutorService execService = Executors.newScheduledThreadPool(3);
 
 		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
-				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, "MSFT"));
-
 				try {
 					mainLoop(APIURLBuilder.Length.MIN);
 				} catch (Exception e) {
@@ -48,8 +41,6 @@ public class Main
 		//Runs every day
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
-				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.DAY, "MSFT"));
-				
 				try {
 					mainLoop(APIURLBuilder.Length.DAY);
 				} catch (Exception e) {
@@ -61,9 +52,6 @@ public class Main
 		//Runs every week
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
-				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.WEEK, "MSFT"));
-
-
 				try {
 					mainLoop(APIURLBuilder.Length.WEEK);
 					} catch (Exception e) {
@@ -88,34 +76,37 @@ public class Main
 	}
 
 
-	// List of tasks Main should repeat.
+	/**********************************
+	 * 	List of tasks Main should repeat in various threads,
+	 * 	 mostly updating the database
+	 **********************************/
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
+		//Pull new data from API
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		Controller controller = new Controller();
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> ToSql = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
 
-		//TO DO: For Loop ToDataBase
+		//Reads each part of the data, checks if its in the database. If return is null,
+		// adds the data to the database
 		for(Record record: ToSql) {
 			switch (h) {
 				case WEEK:
-					if(controller.getDataByWeek(record.getDate()) == null)
+					if (controller.getDataByWeek(record.getDate()) == null)
 						controller.setDataByWeek(record.getDate(), record.getOpen(),
-							record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
+								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case DAY:
-					if(controller.getDataByDay(record.getDate()) == null)
+					if (controller.getDataByDay(record.getDate()) == null)
 						controller.setDataByDay(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case MIN:
-					if(controller.getDataBy5Min(record.getDate()) == null)
+					if (controller.getDataBy5Min(record.getDate()) == null)
 						controller.setDataBy5Min(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 			}
 		}
-
-
 	}
 }

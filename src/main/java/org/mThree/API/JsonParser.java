@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public class JsonParser {
 
 	public static ArrayList<Record> JsonParse(URL url, String symbol, APIURLBuilder.Length durationType) throws Exception {
 		String duration = "";
+		//JSON object changes.
 		switch(durationType) {
 		case MIN: duration = "Time Series (5min)"; break;
 		case DAY: duration = "Time Series (Daily)"; break;
@@ -36,7 +38,6 @@ public class JsonParser {
 		int responsecode = conn.getResponseCode();
 		if(responsecode != 200)
 			System.err.println("Bad response:\t" + responsecode);
-
 		System.out.println("Connected ...\n");
 		InputStream stream = conn.getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
@@ -44,6 +45,7 @@ public class JsonParser {
 		while((line = br.readLine() )!= null)
 			response += line;
 
+		//This helps split the object as we don't care about meta object.
 		JSONObject responseJson = new JSONObject(response);
 		JSONObject data = responseJson.getJSONObject(duration);
 
@@ -78,7 +80,7 @@ public class JsonParser {
 				case HIGH:
 					point.setHigh(entry_data_d);
 					break;
-				case CLOSE: // last field
+				case CLOSE:
 					point.setClose(entry_data_d);
 					point.setSymbol(symbol);
 					dataList.add(point);
@@ -88,7 +90,8 @@ public class JsonParser {
 
 		}
 
-		dataList.sort((o1,o2) -> o1.getDate().compareTo(o2.getDate()));
+		//Make sure its in date order
+		dataList.sort(Comparator.comparing(Record::getDate));
 		return dataList;
 	}
 }

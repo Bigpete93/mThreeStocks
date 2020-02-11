@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class APIURLBuilder {
+    //Can only accept one of three modes, as per API query requirement
     public enum Length {
         MIN, DAY, WEEK
     }
@@ -15,8 +16,6 @@ public class APIURLBuilder {
 
 
         String urlStr = "https://www.alphavantage.co/query?function=";
-
-
         switch (l) {
             case MIN:
                 urlStr += "TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&outputsize=full&apikey=";
@@ -31,6 +30,7 @@ public class APIURLBuilder {
 
         }
         BufferedReader br = null;
+        // For security reasons, don't want the key public accessible, so read it privately.
         try {
             br = new BufferedReader(new FileReader("APIKey.txt"));
             String apiKey;
@@ -40,10 +40,10 @@ public class APIURLBuilder {
 
         } catch (IOException e) {
             e.printStackTrace();
-            urlStr= "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo";
+            //if no API key exists, we'll throw the free demo;
+            urlStr= "https://www.alphavantage.co/query?function=TIME" +
+                    "_SERIES_INTRADAY&symbol=MSFT&interval=5min&outputsize=full&apikey=demo";
         }
-
-
         return urlStr;
     }
 }

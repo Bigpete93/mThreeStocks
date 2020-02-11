@@ -1,4 +1,9 @@
 package org.mThree.API;
+
+/*******************
+ * Record Class holds the various data from the API requests in a single object.
+ *  Has a stock record's data for a given time period
+ ******************/
 public class Record {
 
 	private String symbol;
@@ -23,6 +28,7 @@ public class Record {
         // Auto-generated constructor stub
     }
 
+    //human readable if record needs checking later
     public String toString() {
         return date + "\n"
         + "open: " + open + "\n"
