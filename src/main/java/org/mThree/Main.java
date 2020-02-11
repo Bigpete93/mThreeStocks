@@ -14,6 +14,9 @@ import org.mThree.API.APIURLBuilder;
 import org.mThree.API.JsonParser;
 import org.mThree.API.Record;
 import org.mThree.ControllerFiles.Controller;
+import org.mThree.FrontEnd.SparkServer;
+
+import spark.Spark;
 
 /**
  * Hello world!
@@ -75,15 +78,8 @@ public class Main
 		/******************* FRONT END CALL***********************************/
 
 		//TO DO: launch front end
-
-
-
-		//launches a browser if the user has one set as default
-		//if (Desktop.isDesktopSupported()) {
-		//	Desktop.getDesktop().browse(new URI("http://localhost"));}
-
-
-
+		SparkServer.spark();
+		
 
 	}
 
@@ -92,9 +88,9 @@ public class Main
     public static void mainLoop(APIURLBuilder.Length h) throws Exception {
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		Controller controller = new Controller();
+		
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> ToSql = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
-
 		//TO DO: For Loop ToDataBase
 		for(Record record: ToSql) {
 			switch (h) {
@@ -115,7 +111,8 @@ public class Main
 					break;
 			}
 		}
-
+		
+		
 
 	}
 }
