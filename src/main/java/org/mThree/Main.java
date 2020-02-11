@@ -14,6 +14,9 @@ import org.mThree.API.APIURLBuilder;
 import org.mThree.API.JsonParser;
 import org.mThree.API.Record;
 import org.mThree.ControllerFiles.Controller;
+import org.mThree.FrontEnd.SparkServer;
+
+import spark.Spark;
 
 /**
  * Hello world!
@@ -30,6 +33,8 @@ public class Main
 		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
+				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, "MSFT"));
+
 				try {
 					mainLoop(APIURLBuilder.Length.MIN);
 				} catch (Exception e) {
@@ -63,14 +68,7 @@ public class Main
 		/******************* FRONT END CALL***********************************/
 
 		//TO DO: launch front end
-
-
-
-		//launches a browser if the user has one set as default
-		//if (Desktop.isDesktopSupported()) {
-		//	Desktop.getDesktop().browse(new URI("http://localhost"));}
-
-
+		SparkServer.spark();
 
 
 	}
@@ -84,29 +82,33 @@ public class Main
 		//Pull new data from API
 		String urlStr = APIURLBuilder.urlBuild(h, "MSFT");
 		Controller controller = new Controller();
+
 		URL alphaVantage5min = new URL(urlStr);
 		ArrayList<Record> ToSql = JsonParser.JsonParse(alphaVantage5min, "MSFT", h);
+		//TO DO: For Loop ToDataBase
 
 		//Reads each part of the data, checks if its in the database. If return is null,
 		// adds the data to the database
 		for(Record record: ToSql) {
 			switch (h) {
 				case WEEK:
-					if (controller.getDataByWeek(record.getDate()) == null)
+					if(controller.getDataByWeek(record.getDate()) == null)
 						controller.setDataByWeek(record.getDate(), record.getOpen(),
-								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
+							record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case DAY:
-					if (controller.getDataByDay(record.getDate()) == null)
+					if(controller.getDataByDay(record.getDate()) == null)
 						controller.setDataByDay(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 				case MIN:
-					if (controller.getDataBy5Min(record.getDate()) == null)
+					if(controller.getDataBy5Min(record.getDate()) == null)
 						controller.setDataBy5Min(record.getDate(), record.getOpen(),
 								record.getHigh(), record.getLow(), record.getClose(), record.getVolume());
 					break;
 			}
 		}
+
+
 	}
 }
