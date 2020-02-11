@@ -42,7 +42,7 @@ public class Controller {
         }
 
         public void setDataBy5Min(String s, double open, double high, double low, double close, long volume){
-            String insertStmt = "INSERT INTO five_min_data VALUES (?, ?, ?, ?, ?, ?)";
+            String insertStmt = "INSERT INTO five_min_data VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             String [] timeAndDate = s.split(" ");
             String date = timeAndDate[0];
@@ -76,7 +76,7 @@ public class Controller {
                 ResultSet rs = selectStmt.executeQuery();
 
                 if(rs.isBeforeFirst()){
-                    rs.next();
+                    rs.first();
                 }
                 if(rs.isAfterLast()){
                     return null;
@@ -107,7 +107,7 @@ public class Controller {
                ResultSet rs = selectStmt.executeQuery();
 
                if(rs.isBeforeFirst()){
-                   rs.next();
+                   rs.first();
                }
                if(rs.isAfterLast()){
                    return null;
@@ -141,10 +141,7 @@ public class Controller {
                 selectStmt.setTime(2, java.sql.Time.valueOf(time));
                 ResultSet rs = selectStmt.executeQuery();
 
-                if(rs.isBeforeFirst()){
-                    rs.next();
-                }
-                if(rs.isAfterLast()){
+                if(!rs.next()){
                     return null;
                 }
 
