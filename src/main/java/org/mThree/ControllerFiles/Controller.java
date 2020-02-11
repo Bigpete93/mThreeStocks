@@ -75,10 +75,7 @@ public class Controller {
                 selectStmt.setDate(1, java.sql.Date.valueOf(s));
                 ResultSet rs = selectStmt.executeQuery();
 
-                if(rs.isBeforeFirst()){
-                    rs.first();
-                }
-                if(rs.isAfterLast()){
+                if(!rs.next()){
                     return null;
                 }
 
@@ -106,10 +103,7 @@ public class Controller {
                selectStmt.setDate(1, java.sql.Date.valueOf(s));
                ResultSet rs = selectStmt.executeQuery();
 
-               if(rs.isBeforeFirst()){
-                   rs.first();
-               }
-               if(rs.isAfterLast()){
+               if(!rs.next()){
                    return null;
                }
 
