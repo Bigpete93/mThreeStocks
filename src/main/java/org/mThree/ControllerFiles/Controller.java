@@ -75,6 +75,13 @@ public class Controller {
                 selectStmt.setDate(1, java.sql.Date.valueOf(s));
                 ResultSet rs = selectStmt.executeQuery();
 
+                if(rs.isBeforeFirst()){
+                    rs.next();
+                }
+                if(rs.isAfterLast()){
+                    return null;
+                }
+
                 result = rs.getDouble("open") + ", "+
                         rs.getDouble("high") + ", "+
                         rs.getDouble("low") + ", "+
@@ -83,9 +90,7 @@ public class Controller {
 
             } catch (SQLException se) {se.printStackTrace();
             }
-            if (result == "0, 0, 0, 0, 0"){
-                return null;
-            }
+
 
             return result;
         }
@@ -101,6 +106,13 @@ public class Controller {
                selectStmt.setDate(1, java.sql.Date.valueOf(s));
                ResultSet rs = selectStmt.executeQuery();
 
+               if(rs.isBeforeFirst()){
+                   rs.next();
+               }
+               if(rs.isAfterLast()){
+                   return null;
+               }
+
                result = rs.getDouble("open") + ", "+
                        rs.getDouble("high") + ", "+
                        rs.getDouble("low") + ", "+
@@ -108,9 +120,6 @@ public class Controller {
                        rs.getLong("volume");
 
            } catch (SQLException se) {se.printStackTrace();
-           }
-           if (result == "0, 0, 0, 0, 0"){
-               return null;
            }
 
            return result;
@@ -132,6 +141,13 @@ public class Controller {
                 selectStmt.setTime(2, java.sql.Time.valueOf(time));
                 ResultSet rs = selectStmt.executeQuery();
 
+                if(rs.isBeforeFirst()){
+                    rs.next();
+                }
+                if(rs.isAfterLast()){
+                    return null;
+                }
+
                 result = rs.getDouble("open") + ", "+
                         rs.getDouble("high") + ", "+
                         rs.getDouble("low") + ", "+
@@ -139,9 +155,6 @@ public class Controller {
                         rs.getLong("volume");
 
             } catch (SQLException se) {se.printStackTrace();
-            }
-            if (result == "0, 0, 0, 0, 0"){
-                return null;
             }
 
             return result;
