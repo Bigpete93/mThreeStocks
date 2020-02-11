@@ -37,21 +37,28 @@ public class SparkServer {
 			ArrayList<String> resultArr = controller.getAllWeek();
 			Collections.reverse(resultArr);
 			String result = String.join("\n", resultArr);
-			System.out.println("The result of SparkServer calling Controller:\n" + result.substring(0,1000));
+			System.out.println("The result of SparkServer calling Controller to get Weekly:\n"
+					+ result.substring(0,1000) + "...continued...");
 			return result;
 		}
 				);
 
 		get("/getDaily", (req, res) -> {
-			String result = String.join("\n", new Seed().DAILYLYSTRINGIFIED);
-			System.out.println(result);
+			ArrayList<String> resultArr = controller.getAllDay();
+			Collections.reverse(resultArr);
+			String result = String.join("\n", resultArr);
+			System.out.println("The result of SparkServer calling Controller to get Daily:\n"
+					+ result.substring(0,1000) + "...continued...");
 			return result;
 		}
 				);
 
 		get("/getIntraday", (req, res) -> {
-			String result = String.join("\n", new Seed().INTRADAYSTRINGIFIED);
-			System.out.println(result);
+			ArrayList<String> resultArr = controller.getAll5Min();
+			Collections.reverse(resultArr);
+			String result = String.join("\n", resultArr);
+			System.out.println("The result of SparkServer calling Controller to get Intraday:\n"
+					+ result.substring(0,1000) + "...continued...");
 			return result;
 		}
 				);
