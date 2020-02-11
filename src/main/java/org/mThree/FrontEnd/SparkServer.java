@@ -16,7 +16,8 @@ public class SparkServer {
 	public static void spark(){
 
 		try {
-			File htmlFile = new File("/home/kurtis/Desktop/mthree_workspace/finalProject/mThreeStocks/src/main/java/org/mThree/Client/test.html");
+			String filepath = System.getProperty("user.dir") +"/src/main/java/org/mThree/Client/test.html";
+			File htmlFile = new File(filepath);
 			//              API Team, please replace the link once it's deployed on AWS
 			controller = new Controller();
 			Desktop.getDesktop().browse(htmlFile.toURI());
