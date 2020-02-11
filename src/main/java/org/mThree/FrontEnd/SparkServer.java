@@ -63,13 +63,11 @@ public class SparkServer {
 		}
 				);
 
-
 		get("/getWeekly/:week", (req, res) -> {
 			String week = req.params(":week");
 			System.out.println("Week Selected: " + week);
-			String[] stringifiedArray = new Seed().WEEKLYSTRINGIFIED;
-			String result = Stream.of(stringifiedArray).filter(w -> w.contains(week)).findFirst().get();
-			System.out.println(result);
+			String result = controller.getDataByWeek(week);
+			System.out.println("Weekly query from db on Date " + week + "\n" + result);
 			return result;
 		}
 				);
@@ -77,9 +75,8 @@ public class SparkServer {
 		get("/getDaily/:day", (req, res) -> {
 			String day = req.params(":day");
 			System.out.println("Week Selected: " + day);
-			String[] stringifiedArray = new Seed().DAILYLYSTRINGIFIED;
-			String result = Stream.of(stringifiedArray).filter(w -> w.contains(day)).findFirst().get();
-			System.out.println(result);
+			String result = controller.getDataByDay(day);
+			System.out.println("Daily query from db on Date " + day + "\n" + result);
 			return result;
 		}
 				);
@@ -87,9 +84,8 @@ public class SparkServer {
 		get("/getIntraday/:minute", (req, res) -> {
 			String minute = req.params(":minute");
 			System.out.println("Minute Selected: " + minute);
-			String[] stringifiedArray = new Seed().INTRADAYSTRINGIFIED;
-			String result = Stream.of(stringifiedArray).filter(m -> m.contains(minute)).findFirst().get();
-			System.out.println(result);
+			String result = controller.getDataBy5Min(minute);
+			System.out.println("5Min query from db on DateTime " + minute + "\n" + result);
 			return result;
 		}
 				);
