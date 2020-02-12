@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import org.mThree.ControllerFiles.Controller;
 
@@ -41,8 +42,7 @@ public class SparkServer {
 			System.out.println("The result of SparkServer calling Controller to get Weekly:\n"
 					+ result.substring(0,1000) + "...continued...");
 			return result;
-		}
-				);
+		});
 
 		get("/getDaily", (req, res) -> {
 			ArrayList<String> resultArr = controller.getAllDay();
@@ -51,8 +51,7 @@ public class SparkServer {
 			System.out.println("The result of SparkServer calling Controller to get Daily:\n"
 					+ result.substring(0,1000) + "...continued...");
 			return result;
-		}
-				);
+		});
 
 		get("/getIntraday", (req, res) -> {
 			ArrayList<String> resultArr = controller.getAll5Min();
@@ -61,8 +60,7 @@ public class SparkServer {
 			System.out.println("The result of SparkServer calling Controller to get Intraday:\n"
 					+ result.substring(0,1000) + "...continued...");
 			return result;
-		}
-				);
+		});
 
 		get("/getWeekly/:week", (req, res) -> {
 			String week = req.params(":week");
@@ -70,8 +68,7 @@ public class SparkServer {
 			String result = controller.getDataByWeek(week);
 			System.out.println("Weekly query from db on Date " + week + "\n" + result);
 			return result;
-		}
-				);
+		});
 
 		get("/getDaily/:day", (req, res) -> {
 			String day = req.params(":day");
@@ -79,8 +76,7 @@ public class SparkServer {
 			String result = controller.getDataByDay(day);
 			System.out.println("Daily query from db on Date " + day + "\n" + result);
 			return result;
-		}
-				);
+		});
 
 		get("/getIntraday/:minute", (req, res) -> {
 			String minute = req.params(":minute");
@@ -88,9 +84,19 @@ public class SparkServer {
 			String result = controller.getDataBy5Min(minute);
 			System.out.println("5Min query from db on DateTime " + minute + "\n" + result);
 			return result;
-		}
-				);
+		});
 
-
+		get("/getIntraday/tradealgo/:day", (req, res) -> {
+			String day = req.params(":day");
+			System.out.println("Week Selected: " + day);
+			String csv = "Date,Open,High,Low,Close,Volume\n";
+			ArrayList<String> dayArr = (ArrayList<String>) controller.getAll5Min().stream().filter(w -> w.contains(day)).collect(Collectors.toList());
+			System.out.println("Stream collected..");
+			for(String str: dayArr)
+				System.out.println(str);
+			String result = String.join("\n", dayArr).replaceAll(", ", ",").replaceAll(" ","T");
+			System.out.println(csv + result);
+			return (csv + result);
+		});
 	}
 }
