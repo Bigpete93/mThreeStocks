@@ -113,6 +113,15 @@ const renderHome = () => {
   </div>`
 }
 
+const renderNotFound = () => {
+  document.querySelector("#main").innerHTML = `
+  <h1 id="parameter" class="text-center">No Data Available</h1>
+  <h3 class="text-center">This was probably a holiday. The Stock Market was closed.</h3>
+  <div class="d-flex justify-content-center">
+    <img src="logo.png" alt="logo" height="250" width="250"/>
+  </div>`
+}
+
 const renderAllTable = mode => {
   document.querySelector("#main").innerHTML = `
   <h1 id="parameter" class="text-center">${utils.tableTitle[mode]}</h1>
@@ -160,25 +169,29 @@ const renderInputForm = async mode => {
 };
 
 const renderSingleInputTable = (mode, data) => {
-  document.querySelector("#main").innerHTML = `
-  <h1 id="parameter" class="text-center">${utils.tableTitle[mode]}</h1>
-  <table class="blueTable">
-  <thead>
-    <tr>
-      <th>Description</th>
-      <th>Figures</th>
-    </tr>
-  </thead>
-  <tbody id="results">
-  ${Object.keys(data).map(d => `
-    <tr>
-      <td>${d.toUpperCase()}</td>
-      ${d !== 'volume' ?
-      `<td>${data[d]}</td>` :
-      `<td>${Number(data.volume).toLocaleString()}</td>`}
-    </tr>`).join('')}
-  </tbody>
-</table>`;
+  if (!data) {
+    renderNotFound();
+  } else {
+    document.querySelector("#main").innerHTML = `
+    <h1 id="parameter" class="text-center">${utils.tableTitle[mode]}</h1>
+    <table class="blueTable">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Figures</th>
+      </tr>
+    </thead>
+    <tbody id="results">
+    ${Object.keys(data).map(d => `
+      <tr>
+        <td>${d.toUpperCase()}</td>
+        ${d !== 'volume' ?
+        `<td>${data[d]}</td>` :
+        `<td>${Number(data.volume).toLocaleString()}</td>`}
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+  }
 }
 
 const renderHistorical = () => {
@@ -293,6 +306,7 @@ const armDayTradePlatform = day => {
   const ma = fc.indicatorMovingAverage()
       .value(d => d.open);
 
+  
   d3.csv(`http://localhost:4567/getIntraday/tradealgo/${day}`,
     row => ({
       date: new Date(row.Date),
@@ -301,19 +315,23 @@ const armDayTradePlatform = day => {
       high: Number(row.High),
       low: Number(row.Low)
     })).then(data => {
-      const maData = ma(data);
-      const mergedData = data.map((d, i) =>
-        Object.assign({}, d, {
-          ma: maData[i]
-        })
-      );
-     
-      chart.xDomain(xExtent(mergedData))
-        .yDomain(yExtent(mergedData))
-  
-      d3.select('#day-trade')
-        .datum(mergedData)
-        .call(chart);
+      if(data.length === 0) {
+        renderNotFound();
+      } else {
+        const maData = ma(data);
+        const mergedData = data.map((d, i) =>
+          Object.assign({}, d, {
+            ma: maData[i]
+          })
+        );
+       
+        chart.xDomain(xExtent(mergedData))
+          .yDomain(yExtent(mergedData))
+    
+        d3.select('#day-trade')
+          .datum(mergedData)
+          .call(chart);
+      }
     });
 }
 
