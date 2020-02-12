@@ -66,22 +66,29 @@
     <title>Stock Analyzer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/britecharts/dist/css/britecharts.min.css" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/bundled/britecharts.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/britecharts@2/dist/bundled/britecharts.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/line.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/brush.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/britecharts@2.10.0/dist/umd/tooltip.min.js" type="text/javascript"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.8.3/polyfill.min.js"></script>
+    <script src="https://unpkg.com/custom-event-polyfill@0.3.0/custom-event-polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.8.0/document-register-element.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https:////unpkg.com/d3@5.5.0"></script>
+    <script src="https:////unpkg.com/d3fc@14.0.41"></script>
   </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="test.html">MThree Stock Analysis</a>
+  <body class="d-flex flex-column">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="test.html">EmThree Stock Analysis</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
@@ -89,9 +96,9 @@
               Get All Data
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" onclick="renderAllTable('Weekly')">Intraday</a>
+              <a class="dropdown-item" onclick="renderAllTable('Intraday')">Intraday</a>
               <a class="dropdown-item" onclick="renderAllTable('Daily')">Daily</a>
-              <a class="dropdown-item" onclick="renderAllTable('Intraday')">Weekly</a>
+              <a class="dropdown-item" onclick="renderAllTable('Weekly')">Weekly</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -99,9 +106,9 @@
               Get Single Data
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" onclick="renderSingleInputForm('Intraday'); armSubmit('Intraday')">Intraday</a>
-              <a class="dropdown-item" onclick="renderSingleInputForm('Daily'); armSubmit('Daily')">Daily</a>
-              <a class="dropdown-item" onclick="renderSingleInputForm('Weekly'); armSubmit('Weekly')">Weekly</a>
+              <a class="dropdown-item" onclick="renderInputForm('Intraday'); armSubmit('Intraday')">Intraday</a>
+              <a class="dropdown-item" onclick="renderInputForm('Daily'); armSubmit('Daily')">Daily</a>
+              <a class="dropdown-item" onclick="renderInputForm('Weekly'); armSubmit('Weekly')">Weekly</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -109,23 +116,24 @@
               Analysis
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" onclick="renderHistorical(); armHistorical()">Historical</a>
-              <a class="dropdown-item disabled" >Dashboard</a>
-              <a class="dropdown-item disabled" >Recommendation</a>
+              <a class="dropdown-item" onclick="armHistorical(renderHistorical())">Historical</a>
+              <a class="dropdown-item" onclick="armDayTradePlatform(renderDayTradePlatform()); armSubmit('daytrade')">Day Trade</a>
             </div>
           </li>
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
       </div>
     </nav>
 
     <main id="main">
-      <h1 id="parameter" class="text-center">Welcome to the MThree Stock Analysis Application</h1>
+      <h1 id="parameter" class="text-center">Welcome to the Stock Analysis Application</h1>
+      <div class="d-flex justify-content-center">
+        <img src="logo.png" alt="logo" height="200" width="200"/>
+      </div>
     </main>
-    
+
     <script src="GetData.js"></script>
+    <script>
+      let rerender = (e) => {armDayTradePlatform(renderDayTradePlatform(state.inputValidation[mode]((e.target.param.value.replace("T"," ")+":00"))))};
+    </script>
   </body>
 </html>
