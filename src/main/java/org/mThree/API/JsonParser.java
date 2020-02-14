@@ -50,7 +50,6 @@ public class JsonParser {
 		JSONObject data = responseJson.getJSONObject(duration);
 
 		String[] dates = JSONObject.getNames(data);
-
 		ArrayList<Record> dataList = new ArrayList<Record>();
 
 		for(String date : dates) { //traverse all dates, get each entry

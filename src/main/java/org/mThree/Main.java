@@ -33,8 +33,6 @@ public class Main
 		// Runs every five minutes
 		execService.scheduleAtFixedRate(new Runnable() {
 			public void run() {
-				System.out.println(APIURLBuilder.urlBuild(APIURLBuilder.Length.MIN, "MSFT"));
-
 				try {
 					mainLoop(APIURLBuilder.Length.MIN);
 				} catch (Exception e) {
