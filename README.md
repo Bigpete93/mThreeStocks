@@ -5,7 +5,8 @@ A full-stack project that uses a **Model View Controller** architecture which ac
 
 ### Back-end
 
-### Controller
+* **JDBC**: Utilize SQL queries to get/set financial data from/to MariaDb.
+* **Spark**: Allows our back-end to communicate with the front-end by exposing an API
 
 ### Front-end
 
